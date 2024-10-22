@@ -7,7 +7,7 @@ services:
       container_name: nginx
       hostname: nginx
       ports:
-        - '8081:80'
+        - '${PROXY_PORT:-8081}:80'
       networks:
         - network
 
@@ -21,9 +21,9 @@ services:
     postgres:
       image: postgres:alpine
       environment:
-        POSTGRES_DB: postgres
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: ${POSTGRES_DB:-postgres}
+        POSTGRES_USER: ${POSTGRES_USER:-postgres}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       ports:
         - '5432:5432'
       volumes:
@@ -34,8 +34,9 @@ services:
     adminer:
       image: adminer:latest
       ports:
-        - '8080:8080'
-
+        - '${ADMINER_PORT:-8080}:8080'
+      networks:
+        - network
 
 networks:
   network:
